@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginScreenComponent implements OnInit {
 
+  private validUsername = false;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+
+  isValidInput(): boolean {
+    return !this.validUsername;
+  }
 }

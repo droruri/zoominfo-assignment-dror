@@ -4,11 +4,13 @@
       <div class="col-4">
         <div class="md-form text-center border border-light p-5">
           <p class="h4 mb-4">Sign in</p>
-          <input mdbInput type="text" id="username" class="form-control mb-4" placeholder="User Name">
-          <button mdbBtn color="info" block="true" class="my-4" type="submit">Sign in</button>
+          <input appAlphanumeric mdbInput type="text" id="username" class="form-control mb-4" placeholder="User Name">
+          <button [disabled]="!isValidInput()" mdbBtn color="info" block="true" class="my-4" [routerLink]="['/game']">Sign in</button>
         </div>
       </div>
     </div>
+    <div class="d-flex justify-content-center row">
+      <button mdbBtn color="red" block="true" class="my-4 col-4">Go to Leaderboard</button>
+    </div>
   </div>
 </div>
-<app-footer></app-footer>
