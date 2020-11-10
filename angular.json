@@ -120,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "zoominfo-assignment"
+    }
+  },
+  "defaultProject": "zoominfo-assignment",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
