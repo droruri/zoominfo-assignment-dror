@@ -1,0 +1,12 @@
+.dot-dimensions {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.gray-dot {
+  background-color: #C9CFD3;
+}
+
+.blue-dot {
+  background: #0D7BAB;
+}
