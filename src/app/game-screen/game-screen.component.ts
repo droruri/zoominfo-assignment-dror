@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {QuestionsService} from '../questions/questions.service';
+import {Question} from '../questions/question';
 
 @Component({
   selector: 'app-game-screen',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameScreenComponent implements OnInit {
 
-  constructor() { }
+  gameQuestions: Question[];
+
+  constructor(private questionsService: QuestionsService) { }
 
   ngOnInit(): void {
+    this.questionsService.getQuestions().subscribe(data => {
+      this.gameQuestions = data;
+      console.log(this.gameQuestions);
+    });
   }
 
 }

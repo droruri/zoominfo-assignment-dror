@@ -1,0 +1,16 @@
+.option-btn {
+  font-family: "Font Awesome\ 5 Free", sans-serif;
+  font-size: 13px;
+  color: #496472 !important;
+  border: 2px solid #D9E6EB;
+}
+
+.ok-btn {
+  background: #FF8F48;
+}
+
+.ok-btn:disabled {
+  background: #F0F0F0;
+}
+
+
