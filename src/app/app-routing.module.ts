@@ -6,7 +6,7 @@ import {LoginScreenComponent} from './login-screen/login-screen.component';
 
 const appRoutes: Routes = [
   {
-    path: 'game',
+    path: 'game/:username',
     component: GameScreenComponent
   },
   {
