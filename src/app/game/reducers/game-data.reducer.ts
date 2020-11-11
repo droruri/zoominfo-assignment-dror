@@ -14,12 +14,20 @@ export function reducer(state: GameData = initialState, action: GameDataActions.
     case GameDataActions.LOAD_INITIAL_DATA:
       return action.payload;
 
-    case '[GameData] Update username':
-      state.username = action.payload;
+    case '[GameData] Decrement Skip':
+      state.gameStatus.skips--;
       return state;
 
-    case '[GameData] Load questions':
-      state.gameQuestions = action.payload;
+    case '[GameData] Decrement Life':
+      state.gameStatus.livesRemaining--;
+      return state;
+
+    case '[GameData] Add Points':
+      state.gameStatus.points += 10; // TODO: const
+      return state;
+
+    case '[GameData] set correctness for question':
+      state.gameQuestions[action.questionIndex].isCorrectAnswer = action.correctness;
       return state;
 
     default:

@@ -3,8 +3,10 @@ import {Action} from '@ngrx/store';
 import {Question} from '../../questions/question';
 
 export const LOAD_INITIAL_DATA = '[GameData] Load initial data';
-export const UPDATE_USERNAME = '[GameData] Update username';
-export const LOAD_QUESTIONS = '[GameData] Load questions';
+export const DECREMENT_SKIP = '[GameData] Decrement Skip';
+export const DECREMENT_LIFE = '[GameData] Decrement Life';
+export const ADD_POINTS = '[GameData] Add Points';
+export const SET_ANSWER = '[GameData] set correctness for question';
 
 export class LoadInitialData implements Action {
   readonly type = LOAD_INITIAL_DATA;
@@ -12,21 +14,31 @@ export class LoadInitialData implements Action {
   constructor(public payload: GameData) {}
 }
 
-export class UpdateUsername implements Action {
-  readonly type = UPDATE_USERNAME;
+export class DecrementSkip implements Action {
+  readonly type = DECREMENT_SKIP;
 
-  constructor(public payload: string) {}
+  constructor() {}
 }
 
-export class LoadQuestions implements Action {
-  readonly type = LOAD_QUESTIONS;
+export class DecrementLife implements Action {
+  readonly type = DECREMENT_LIFE;
 
-  constructor(public payload: Question[]) {}
+  constructor() {}
 }
 
-export type Actions = LoadInitialData | UpdateUsername | LoadQuestions;
-// export const loadInitialData = createAction('[GameData Component] Load initial data', props<{game: GameData}>());
-// export const updatePoints = createAction('[GameData component] update points');
+export class AddPoints implements Action {
+  readonly type = ADD_POINTS;
+
+  constructor() {}
+}
+
+export class SetAnswerToQuestion implements Action {
+  readonly type = SET_ANSWER;
+
+  constructor(public questionIndex: number, public correctness: boolean) {}
+}
+
+export type Actions = LoadInitialData | DecrementSkip | DecrementLife | AddPoints | SetAnswerToQuestion;
 
 
 
