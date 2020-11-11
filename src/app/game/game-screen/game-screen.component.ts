@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {QuestionsService} from '../../questions/questions.service';
 import {Question} from '../../questions/question';
 import { first } from 'rxjs/operators';
-import {GameData} from '../game-data';
 
 @Component({
   selector: 'app-game-screen',
@@ -10,7 +9,6 @@ import {GameData} from '../game-data';
   styleUrls: ['./game-screen.component.css']
 })
 export class GameScreenComponent implements OnInit {
-  gameData: GameData;
 
   gameQuestions$: Question[];
   questionNumberCounter = 1;
@@ -21,9 +19,8 @@ export class GameScreenComponent implements OnInit {
 
   ngOnInit(): void {
     this.questionsService.getQuestions().pipe(first()).subscribe(data => { // TODO: validate first is used good
-      // this.gameQuestions$ = data;
-      this.gameData.gameQuestions = data;
-      console.log(this.gameData.gameQuestions);
+      this.gameQuestions$ = data;
+      console.log(this.gameQuestions$);
       this.currentQuestion = this.gameQuestions$[0];
     });
   }
