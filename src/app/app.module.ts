@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { AlphanumericDirective } from './core/directives/alphanumeric.directive';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 // import { reducers, metaReducers } from './reducers/reducer';
 // import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
@@ -31,18 +31,19 @@ import { StepperComponent } from './stepper/stepper.component';
     OptionCardComponent,
     StepperComponent
   ],
-  imports: [
-    BrowserModule,
-    StoreModule.forRoot({}, {}),
-    NgbModule,
-    MDBBootstrapModule,
-    HttpClientModule,
-    AppRoutingModule,
-    RouterModule,
-    ReactiveFormsModule,
-    // StoreModule.forRoot(reducers, { metaReducers }),
-    // !environment.production ? StoreDevtoolsModule.instrument() : []
-  ],
+    imports: [
+        BrowserModule,
+        StoreModule.forRoot({}, {}),
+        NgbModule,
+        MDBBootstrapModule,
+        HttpClientModule,
+        AppRoutingModule,
+        RouterModule,
+        ReactiveFormsModule,
+        FormsModule,
+        // StoreModule.forRoot(reducers, { metaReducers }),
+        // !environment.production ? StoreDevtoolsModule.instrument() : []
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

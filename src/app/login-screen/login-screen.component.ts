@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginScreenComponent implements OnInit {
 
-  private validUsername = false;
+  userInput: string;
 
   constructor() { }
 
@@ -16,6 +16,10 @@ export class LoginScreenComponent implements OnInit {
 
 
   isValidInput(): boolean {
-    return !this.validUsername;
+    return this.userInput && this.userInput.length > 0;
+  }
+
+  valueChange($event: string): void {
+    this.userInput = $event;
   }
 }

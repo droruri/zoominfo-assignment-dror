@@ -4,8 +4,22 @@
       <div class="col-4">
         <div class="md-form text-center border border-light p-5">
           <p class="h4 mb-4">Sign in</p>
-          <input appAlphanumeric mdbInput type="text" id="username" class="form-control mb-4" placeholder="User Name">
-          <button [disabled]="!isValidInput()" mdbBtn color="info" block="true" class="my-4" [routerLink]="['/game']">Sign in</button>
+          <input mdbInput
+                 appAlphanumeric
+                 type="text"
+                 id="username"
+                 class="form-control mb-4"
+                 placeholder="User Name"
+                 [ngModel]="userInput"
+                 (ngModelChange)="valueChange($event)"
+          >
+          <button mdbBtn
+                  [disabled]="!isValidInput()"
+                  color="info"
+                  block="true"
+                  class="my-4"
+                  [routerLink]="['/game']"
+          >Sign in</button>
         </div>
       </div>
     </div>
