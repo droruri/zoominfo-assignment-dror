@@ -1,5 +1,5 @@
 import {Question} from '../questions/question';
-import {GameStatus} from './game-screen/game-status';
+import {GameStatus} from './game-status';
 
 export class GameData {
   username: string;
