@@ -1,23 +1,30 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import * as GameDataActions from '../actions/game-data.actions';
 import {GameData} from '../game-data';
+import {GameStatus} from '../game-status';
 
-export interface State {
-  gameData: GameData;
-}
-
-const initialGameDataState: State = {
-  gameData: new GameData('', null)
+const initialState: GameData = {
+  username: '',
+  gameQuestions: [],
+  gameStatus: new GameStatus()
 };
 
-const gameDataReducer = createReducer(
-  initialGameDataState,
-  on(GameDataActions.loadInitialData, (state, {game}) => ({ gameData: game}))
-  // on(GameDataActions.updatePoints, state => ({...state, gameData: state.gameData}))
-);
+export function reducer(state: GameData = initialState, action: GameDataActions.Actions): GameData {
+  switch (action.type) {
+    case GameDataActions.LOAD_INITIAL_DATA:
+      return action.payload;
 
-export function reducer(state: State | undefined, action: Action): State {
-  return gameDataReducer(state, action);
+    case '[GameData] Update username':
+      state.username = action.payload;
+      return state;
+
+    case '[GameData] Load questions':
+      state.gameQuestions = action.payload;
+      return state;
+
+    default:
+      return state;
+  }
 }
 
 
