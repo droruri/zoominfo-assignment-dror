@@ -7,7 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FooterComponent } from './core/footer/footer.component';
-import { GameScreenComponent } from './game-screen/game-screen.component';
+import { GameScreenComponent } from './game/game-screen/game-screen.component';
 import { HeaderComponent } from './core/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
