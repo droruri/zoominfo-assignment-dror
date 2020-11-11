@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -14,11 +13,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { AlphanumericDirective } from './core/directives/alphanumeric.directive';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-// import { reducers, metaReducers } from './reducers/reducer';
-// import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
 import { OptionCardComponent } from './option-card/option-card.component';
 import { StepperComponent } from './stepper/stepper.component';
+import { ReplaceCodesToQuotesPipe } from './core/pipes/replace-codes-to-quotes.pipe';
+import * as fromGameData from './game/reducers/game-data.reducer';
+import {environment} from '../environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -41,8 +41,8 @@ import { StepperComponent } from './stepper/stepper.component';
         RouterModule,
         ReactiveFormsModule,
         FormsModule,
-        // StoreModule.forRoot(reducers, { metaReducers }),
-        // !environment.production ? StoreDevtoolsModule.instrument() : []
+        StoreModule.forRoot({gameData: fromGameData.reducer}),
+        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
     ],
   providers: [],
   bootstrap: [AppComponent]
