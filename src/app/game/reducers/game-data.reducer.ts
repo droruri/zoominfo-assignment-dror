@@ -1,7 +1,8 @@
-import {Action, createReducer, on} from '@ngrx/store';
+import {createSelector} from '@ngrx/store';
 import * as GameDataActions from '../actions/game-data.actions';
 import {GameData} from '../game-data';
 import {GameStatus} from '../game-status';
+import {AppState} from '../../app.state';
 
 const initialState: GameData = {
   username: '',
@@ -38,4 +39,13 @@ export function reducer(state: GameData = initialState, action: GameDataActions.
   }
 }
 
+export const getGameDataState = (state: AppState) => state.gameData;
+
+export const getSkipsState = (state: GameData) => state.gameStatus.skips;
+
+export const getPointsState = (state: GameData) => state.gameStatus.points;
+
+export const getSkips = createSelector(getGameDataState, getSkipsState);
+
+export const getPoints = createSelector(getGameDataState, getPointsState);
 
