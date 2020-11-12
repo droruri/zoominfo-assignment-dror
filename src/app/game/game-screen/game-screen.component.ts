@@ -21,7 +21,8 @@ export class GameScreenComponent implements OnInit {
   gameQuestions$: Question[];
   questionNumberCounter = 1;
   currentQuestion: Question;
-  answerChosen: string;
+  answerChosen = '';
+  answerSubmitted = false;
   disableSkipButton = false;
 
   constructor(private gameService: GameService,
@@ -43,9 +44,14 @@ export class GameScreenComponent implements OnInit {
       if (this.timeLeft > 0) {
         this.timeLeft--;
       } else {
-        this.stopTimer();
+        this.onTimerEnded();
       }
     }, 1000);
+  }
+
+  private onTimerEnded(): void {
+    this.stopTimer();
+    this.handleDecrementLife();
   }
 
   private stopTimer(): void {
@@ -61,12 +67,23 @@ export class GameScreenComponent implements OnInit {
   }
 
   onAnswerSubmitted(): void {
+    this.stopTimer();
     if (this.getCurrentCorrectAnswer() === this.answerChosen) {
       this.gameService.increaseScore();
+    } else {
+      this.handleDecrementLife();
     }
+    this.options.forEach(option => this.answerChosen === option.cardText ? option.submittedCard = true : option.submittedCard = false);
+    this.answerSubmitted = true;
+  }
 
-    this.questionNumberCounter++;
-    this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
+  private handleDecrementLife(): void {
+    this.gameService.decrementLife();
+    this.getNumberOfLivesRemaining().pipe(first()).subscribe( lives => {
+      if (lives === 0) {
+        // TODO: handle end of game
+      }
+    });
   }
 
   getChosenAnswer($event: string): void {
@@ -82,6 +99,7 @@ export class GameScreenComponent implements OnInit {
         }
         this.gameService.decrementSkip();
         this.questionNumberCounter++;
+        this.restartTimer();
       }
     });
   }
@@ -96,5 +114,26 @@ export class GameScreenComponent implements OnInit {
 
   getPoints(): Observable<number> {
     return this.gameService.getPoints();
+  }
+
+  onContinueClicked(): void {
+    this.options.forEach(option => {
+      option.submittedCard = false;
+      option.selectedCard = false;
+    });
+    this.answerChosen = '';
+    this.answerSubmitted = false;
+    this.questionNumberCounter++;
+    this.restartTimer();
+    this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
+  }
+
+  private restartTimer(): void {
+    this.stopTimer();
+    this.startTimer();
+  }
+
+  private handleEndOfGame(): void {
+
   }
 }

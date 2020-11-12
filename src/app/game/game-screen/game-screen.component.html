@@ -52,15 +52,26 @@
           </div>
         </div>
         <div class="justify-content-center row">
-          <button mdbBtn type="button" class="d-inline mt-5 rounded-pill h-100 w-25 btn ok-btn" (click)="onAnswerSubmitted()">
+          <button *ngIf="!answerSubmitted"
+                  mdbBtn type="button"
+                  class="d-inline mt-5 rounded-pill h-100 w-25 btn ok-btn"
+                  (click)="onAnswerSubmitted()"
+          [disabled]="this.answerChosen.length === 0">
             <h3 class="my-2">OK</h3>
+          </button>
+          <button *ngIf="answerSubmitted"
+                  mdbBtn
+                  type="button"
+                  class="d-inline mt-5 rounded-pill h-100 w-25 btn ok-btn"
+                  (click)="onContinueClicked()">
+            <h3 class="my-2">Continue</h3>
           </button>
           <div>
           <button mdbBtn
                   type="button"
                   color="white"
                   class="d-inline mt-5 rounded-pill btn ok-btn"
-                  [disabled]="disableSkipButton"
+                  [disabled]="disableSkipButton || answerSubmitted"
                   (click)="onSkip()">
             <h3 class="my-2">SKIP</h3>
           </button>
