@@ -7,8 +7,8 @@ import {Store} from '@ngrx/store';
 import {CORRECT_HEADER, INCORRECT_HEADER, QUESTION_HEADER} from '../shared/global';
 import {GameData} from '../game/game-data';
 import {AppState} from '../app.state';
-import {DecrementSkip, LoadInitialData} from '../game/actions/game-data.actions';
-
+import {AddPoints, DecrementSkip, LoadInitialData} from '../game/actions/game-data.actions';
+import * as fromGameData from '../game/reducers/game-data.reducer';
 @Injectable({
   providedIn: 'root'
 })
@@ -37,11 +37,23 @@ export class GameService {
     return this.store.select('gameData');
   }
 
+  public getNumberOfSkipsRemaining(): Observable<number> {
+    return this.store.select(fromGameData.getSkips);
+  }
+
+  public getPoints(): Observable<number> {
+    return this.store.select(fromGameData.getPoints);
+  }
+
   public setStartGameData(game: GameData): void {
     this.store.dispatch(new LoadInitialData(game));
   }
 
   public decrementSkip(): void {
     this.store.dispatch(new DecrementSkip());
+  }
+
+  public increaseScore(): void {
+    this.store.dispatch(new AddPoints());
   }
 }

@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import {GameData} from '../game-data';
 import {ActivatedRoute} from '@angular/router';
 import {OptionCardComponent} from '../../option-card/option-card.component';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-game-screen',
@@ -14,11 +15,11 @@ import {OptionCardComponent} from '../../option-card/option-card.component';
 export class GameScreenComponent implements OnInit {
   @ViewChildren(OptionCardComponent) options: QueryList<OptionCardComponent>;
 
-  gameData: GameData;
   gameQuestions$: Question[];
   questionNumberCounter = 1;
   currentQuestion: Question;
   answerChosen: string;
+  disableSkipButton = false;
 
   constructor(private gameService: GameService,
               private activatedRoute: ActivatedRoute) {
@@ -27,8 +28,7 @@ export class GameScreenComponent implements OnInit {
   ngOnInit(): void {
     this.gameService.getQuestions().pipe(first()).subscribe(data => { // TODO: validate first is used good
       this.gameQuestions$ = data;
-      this.gameData = new GameData(this.activatedRoute.snapshot.paramMap.get('username'), this.gameQuestions$);
-      this.gameService.setStartGameData(this.gameData);
+      this.gameService.setStartGameData(new GameData(this.activatedRoute.snapshot.paramMap.get('username'), this.gameQuestions$));
       this.currentQuestion = this.gameQuestions$[0];
     });
   }
@@ -43,7 +43,7 @@ export class GameScreenComponent implements OnInit {
 
   onAnswerSubmitted(): void {
     if (this.getCurrentCorrectAnswer() === this.answerChosen) {
-      this.gameData.gameStatus.points += 10;
+      this.gameService.increaseScore();
     }
 
     this.questionNumberCounter++;
@@ -56,8 +56,18 @@ export class GameScreenComponent implements OnInit {
   }
 
   onSkip(): void {
-    // this.gameData.gameStatus.skips--;
-    this.gameService.decrementSkip();
-    this.questionNumberCounter++;
+    this.getNumberOfSkipsRemaining().pipe(first()).subscribe(skips => {
+      if (skips > 0) {
+        if (skips === 1) {
+          this.disableSkipButton = true;
+        }
+        this.gameService.decrementSkip();
+        this.questionNumberCounter++;
+      }
+    });
+  }
+
+  getNumberOfSkipsRemaining(): Observable<number> {
+    return this.gameService.getNumberOfSkipsRemaining();
   }
 }
