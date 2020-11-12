@@ -8,16 +8,24 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class OptionCardComponent implements OnInit {
 
   @Input() cardText: string;
+  @Input() isCorrectAnswer: boolean;
   @Output() selectedCardEmitter = new EventEmitter<string>();
+  submittedCard: boolean;
   selectedCard: boolean;
-
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  toggleSelection(): void {
-    this.selectedCard = true;
+  emitSelection(): void {
     this.selectedCardEmitter.emit(this.cardText);
+  }
+
+  isSubmittedAndCorrect(): boolean {
+    return this.selectedCard && this.submittedCard;
+  }
+
+  isSubmittedAndFalse(): boolean {
+    return this.selectedCard && !this.submittedCard;
   }
 }
