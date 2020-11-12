@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import * as GameDataActions from '../actions/game-data.actions';
-import {GameData} from '../game-data';
-import {GameStatus} from '../game-status';
+import {GameData} from '../../../models/game-data';
+import {GameStatus} from '../../../models/game-status';
 import {AppState} from '../../app.state';
 
 const initialState: GameData = {
@@ -30,9 +30,14 @@ export function reducer(state: GameData = initialState, action: GameDataActions.
       return {...state, gameStatus: updatedGameStatus};
 
     case '[GameData] set correctness for question':
-      const updatedGameQuestions = {...state.gameQuestions};
-      updatedGameQuestions[action.questionIndex].isCorrectAnswer = action.correctness;
-      return {...state, gameQuestions: updatedGameQuestions};
+      const updatedQuestion = state.gameQuestions[action.questionIndex];
+      return {
+        ...state,
+        gameQuestions: {
+          ...state.gameQuestions,
+          [action.questionIndex]: {...updatedQuestion, isCorrectAnswer: action.correctness}
+        }
+      };
 
     default:
       return state;
