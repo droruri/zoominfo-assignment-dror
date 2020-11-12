@@ -1,8 +1,8 @@
 import {Component, OnChanges, OnDestroy, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
 import {GameService} from '../../questions/game.service';
-import {Question} from '../../questions/question';
+import {Question} from '../../core/models/question';
 import { first } from 'rxjs/operators';
-import {GameData} from '../game-data';
+import {GameData} from '../../core/models/game-data';
 import {ActivatedRoute} from '@angular/router';
 import {OptionCardComponent} from '../../option-card/option-card.component';
 import {Observable, TimeInterval} from 'rxjs';
@@ -73,6 +73,7 @@ export class GameScreenComponent implements OnInit {
     } else {
       this.handleDecrementLife();
     }
+    this.gameService.setAnswerToQuestion(this.questionNumberCounter - 1, this.getCurrentCorrectAnswer() === this.answerChosen);
     this.options.forEach(option => this.answerChosen === option.cardText ? option.submittedCard = true : option.submittedCard = false);
     this.answerSubmitted = true;
   }
@@ -99,6 +100,7 @@ export class GameScreenComponent implements OnInit {
         }
         this.gameService.decrementSkip();
         this.questionNumberCounter++;
+        this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
         this.restartTimer();
       }
     });
