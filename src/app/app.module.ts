@@ -16,7 +16,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { OptionCardComponent } from './option-card/option-card.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { ReplaceCodesToQuotesPipe } from './core/pipes/replace-codes-to-quotes.pipe';
-import * as fromGameData from './game/reducers/game-data.reducer';
+import * as fromGameData from './core/store/game-data/reducers/game-data.reducer';
 import {environment} from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -29,6 +29,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     HeaderComponent,
     AlphanumericDirective,
     OptionCardComponent,
+    ReplaceCodesToQuotesPipe,
     StepperComponent
   ],
     imports: [

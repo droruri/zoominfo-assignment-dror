@@ -1,4 +1,4 @@
-import {Question} from '../questions/question';
+import {Question} from './question';
 import {GameStatus} from './game-status';
 
 export class GameData {

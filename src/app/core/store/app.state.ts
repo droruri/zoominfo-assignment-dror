@@ -1,4 +1,4 @@
-import {GameData} from './game/game-data';
+import {GameData} from '../models/game-data';
 
 export interface AppState {
   readonly gameData: GameData;
