@@ -10,25 +10,28 @@ const initialState: GameData = {
 };
 
 export function reducer(state: GameData = initialState, action: GameDataActions.Actions): GameData {
+  const updatedGameStatus = {...state.gameStatus};
+
   switch (action.type) {
     case GameDataActions.LOAD_INITIAL_DATA:
       return action.payload;
 
     case '[GameData] Decrement Skip':
-      state.gameStatus.skips--;
-      return state;
+      updatedGameStatus.skips--;
+      return {...state, gameStatus: updatedGameStatus};
 
     case '[GameData] Decrement Life':
-      state.gameStatus.livesRemaining--;
-      return state;
+      updatedGameStatus.livesRemaining--;
+      return {...state, gameStatus: updatedGameStatus};
 
     case '[GameData] Add Points':
-      state.gameStatus.points += 10; // TODO: const
-      return state;
+      updatedGameStatus.points += 10; // TODO: const
+      return {...state, gameStatus: updatedGameStatus};
 
     case '[GameData] set correctness for question':
-      state.gameQuestions[action.questionIndex].isCorrectAnswer = action.correctness;
-      return state;
+      const updatedGameQuestions = {...state.gameQuestions};
+      updatedGameQuestions[action.questionIndex].isCorrectAnswer = action.correctness;
+      return {...state, gameQuestions: updatedGameQuestions};
 
     default:
       return state;
