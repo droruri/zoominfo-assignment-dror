@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {Question} from './question';
+import {Question} from '../core/models/question';
 import {Store} from '@ngrx/store';
-import {CORRECT_HEADER, INCORRECT_HEADER, QUESTION_HEADER} from '../shared/global';
-import {GameData} from '../game/game-data';
-import {AppState} from '../app.state';
-import {AddPoints, DecrementLife, DecrementSkip, LoadInitialData} from '../game/actions/game-data.actions';
-import * as fromGameData from '../game/reducers/game-data.reducer';
+import {CORRECT_HEADER, INCORRECT_HEADER, QUESTION_HEADER} from '../core/constants/global';
+import {GameData} from '../core/models/game-data';
+import {AppState} from '../core/store/app.state';
+import {AddPoints, DecrementLife, DecrementSkip, LoadInitialData, SetAnswerToQuestion} from '../core/store/game-data/actions/game-data.actions';
+import * as fromGameData from '../core/store/game-data/reducers/game-data.reducer';
 @Injectable({
   providedIn: 'root'
 })
@@ -37,6 +37,10 @@ export class GameService {
     return this.store.select('gameData');
   }
 
+  public setStartGameData(game: GameData): void {
+    this.store.dispatch(new LoadInitialData(game));
+  }
+
   public getNumberOfSkipsRemaining(): Observable<number> {
     return this.store.select(fromGameData.getSkips);
   }
@@ -49,10 +53,6 @@ export class GameService {
     return this.store.select(fromGameData.getPoints);
   }
 
-  public setStartGameData(game: GameData): void {
-    this.store.dispatch(new LoadInitialData(game));
-  }
-
   public decrementSkip(): void {
     this.store.dispatch(new DecrementSkip());
   }
@@ -63,5 +63,9 @@ export class GameService {
 
   public increaseScore(): void {
     this.store.dispatch(new AddPoints());
+  }
+
+  public setAnswerToQuestion(index: number, correctness: boolean): void {
+    this.store.dispatch(new SetAnswerToQuestion(index, correctness));
   }
 }
