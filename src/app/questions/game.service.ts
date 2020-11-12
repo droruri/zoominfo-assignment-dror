@@ -41,6 +41,10 @@ export class GameService {
     return this.store.select(fromGameData.getSkips);
   }
 
+  public getNumberOfLivesRemaining(): Observable<number> {
+    return this.store.select(fromGameData.getLivesRemaining);
+  }
+
   public getPoints(): Observable<number> {
     return this.store.select(fromGameData.getPoints);
   }
