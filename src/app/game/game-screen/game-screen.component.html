@@ -2,6 +2,17 @@
   <div class="container-fluid">
     <div *ngIf="gameQuestions$">
       <div class="flex-column">
+        <div class="mt-3 d-flex justify-content-between">
+          <div class="d-inline">
+            <h2>Lives: {{getNumberOfLivesRemaining() | async}}</h2>
+          </div>
+          <div class="d-inline">
+            <h2>Points: {{getPoints() | async}}</h2>
+          </div>
+          <div class="d-inline">
+            <h2 [ngStyle]="{'color': timeLeft<=5 ? 'red': 'black'}">Time: {{timeLeft}} seconds</h2>
+          </div>
+        </div>
         <span class="mt-5 mb-5 d-flex justify-content-center">
           <h2 class="question-counter-color mr-2">Q:{{questionNumberCounter}}</h2>
           <h2>{{getCurrentQuestion()}}</h2>

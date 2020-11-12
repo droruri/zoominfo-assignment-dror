@@ -5,7 +5,7 @@ import { first } from 'rxjs/operators';
 import {GameData} from '../game-data';
 import {ActivatedRoute} from '@angular/router';
 import {OptionCardComponent} from '../../option-card/option-card.component';
-import {Observable} from 'rxjs';
+import {Observable, TimeInterval} from 'rxjs';
 
 @Component({
   selector: 'app-game-screen',
@@ -15,6 +15,9 @@ import {Observable} from 'rxjs';
 export class GameScreenComponent implements OnInit {
   @ViewChildren(OptionCardComponent) options: QueryList<OptionCardComponent>;
 
+  private readonly SECONDS_PER_QUESTION = 20;
+  timeLeft: number;
+  interval;
   gameQuestions$: Question[];
   questionNumberCounter = 1;
   currentQuestion: Question;
@@ -26,11 +29,27 @@ export class GameScreenComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gameService.getQuestions().pipe(first()).subscribe(data => { // TODO: validate first is used good
+    this.gameService.getQuestions().pipe(first()).subscribe(data => {
       this.gameQuestions$ = data;
       this.gameService.setStartGameData(new GameData(this.activatedRoute.snapshot.paramMap.get('username'), this.gameQuestions$));
       this.currentQuestion = this.gameQuestions$[0];
     });
+    this.startTimer();
+  }
+
+  private startTimer(): void {
+    this.timeLeft = this.SECONDS_PER_QUESTION;
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+      } else {
+        this.stopTimer();
+      }
+    }, 1000);
+  }
+
+  private stopTimer(): void {
+    clearInterval(this.interval);
   }
 
   getCurrentQuestion(): string {
@@ -69,5 +88,13 @@ export class GameScreenComponent implements OnInit {
 
   getNumberOfSkipsRemaining(): Observable<number> {
     return this.gameService.getNumberOfSkipsRemaining();
+  }
+
+  getNumberOfLivesRemaining(): Observable<number> {
+    return this.gameService.getNumberOfLivesRemaining();
+  }
+
+  getPoints(): Observable<number> {
+    return this.gameService.getPoints();
   }
 }
