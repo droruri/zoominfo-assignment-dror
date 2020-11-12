@@ -10,7 +10,7 @@ export class OptionCardComponent implements OnInit {
   @Input() cardText: string;
   @Input() isCorrectAnswer: boolean;
   @Output() selectedCardEmitter = new EventEmitter<string>();
-  submittedCard: boolean;
+  submittedCard = false;
   selectedCard: boolean;
   constructor() { }
 
@@ -22,10 +22,10 @@ export class OptionCardComponent implements OnInit {
   }
 
   isSubmittedAndCorrect(): boolean {
-    return this.selectedCard && this.submittedCard;
+    return this.isCorrectAnswer && this.submittedCard;
   }
 
   isSubmittedAndFalse(): boolean {
-    return this.selectedCard && !this.submittedCard;
+    return !this.isCorrectAnswer && this.submittedCard;
   }
 }

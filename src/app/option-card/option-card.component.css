@@ -12,3 +12,11 @@
 .selected-card {
   border: 4px solid #0D7BAB!important;
 }
+
+.correct-border {
+  border: 4px solid #33C933!important;
+}
+
+.wrong-border {
+  border: 4px solid #FB4343!important;
+}

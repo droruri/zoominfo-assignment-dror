@@ -1,4 +1,6 @@
-<div class="card w-100 option-card" (click)="emitSelection()" [ngClass]="{'selected-card': selectedCard}">
+<div class="card w-100 option-card"
+     (click)="emitSelection()"
+     [ngClass]="{'selected-card': selectedCard, 'correct-border': isSubmittedAndCorrect(), 'wrong-border': isSubmittedAndFalse()}">
   <div class="card-body">
     <div class="d-flex flex-row">
       <div class="w-25">
