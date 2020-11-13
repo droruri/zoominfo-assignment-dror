@@ -1,12 +1,14 @@
 import {Component, OnChanges, OnDestroy, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
-import {GameService} from '../../questions/game.service';
+import {GameService} from '../game.service';
 import {Question} from '../../core/models/question';
 import { first } from 'rxjs/operators';
 import {GameData} from '../../core/models/game-data';
 import {ActivatedRoute} from '@angular/router';
 import {OptionCardComponent} from '../option-card/option-card.component';
-import {Observable, TimeInterval} from 'rxjs';
+import {combineLatest, forkJoin, Observable, TimeInterval} from 'rxjs';
 import {NUM_OF_QUESTIONS} from '../../core/constants/global';
+import {LeaderboardService} from '../../leaderboard/leaderboard.service';
+import {LeaderboardRecord} from '../../core/models/leaderboard-record';
 
 @Component({
   selector: 'app-game-screen',
@@ -28,6 +30,7 @@ export class GameScreenComponent implements OnInit {
   endOfGame = false;
 
   constructor(private gameService: GameService,
+              private leaderboardService: LeaderboardService,
               private activatedRoute: ActivatedRoute) {
   }
 
@@ -85,7 +88,7 @@ export class GameScreenComponent implements OnInit {
     this.gameService.decrementLife();
     this.getNumberOfLivesRemaining().pipe(first()).subscribe( lives => {
       if (lives === 0) {
-        this.endOfGame = true;
+        this.onEndOfGame();
       }
     });
   }
@@ -108,7 +111,7 @@ export class GameScreenComponent implements OnInit {
         this.gameService.decrementSkip();
 
         if (this.questionNumberCounter === NUM_OF_QUESTIONS) {
-          this.endOfGame = true;
+          this.onEndOfGame();
         } else {
           this.questionNumberCounter++;
           this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
@@ -126,12 +129,19 @@ export class GameScreenComponent implements OnInit {
     this.answerChosen = '';
     this.answerSubmitted = false;
     if (this.questionNumberCounter === NUM_OF_QUESTIONS) {
-      this.endOfGame = true;
+      this.onEndOfGame();
     } else {
       this.questionNumberCounter++;
       this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
       this.restartTimer();
     }
+  }
+
+  private onEndOfGame(): void {
+    this.endOfGame = true;
+    combineLatest([this.getUsername(), this.getPoints()]).pipe(first()).subscribe(results => {
+      this.leaderboardService.addRecord(new LeaderboardRecord(results[0], results[1], new Date().toDateString()));
+    });
   }
 
   private restartTimer(): void {
