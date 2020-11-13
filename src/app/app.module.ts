@@ -13,12 +13,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { AlphanumericDirective } from './core/directives/alphanumeric.directive';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { OptionCardComponent } from './option-card/option-card.component';
+import { OptionCardComponent } from './game/option-card/option-card.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { ReplaceCodesToQuotesPipe } from './core/pipes/replace-codes-to-quotes.pipe';
 import * as fromGameData from './core/store/game-data/reducers/game-data.reducer';
 import {environment} from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { LeaderboardTableComponent } from './leaderboard/leaderboard-table/leaderboard-table.component';
 
 @NgModule({
   declarations: [
@@ -30,21 +31,22 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     AlphanumericDirective,
     OptionCardComponent,
     ReplaceCodesToQuotesPipe,
-    StepperComponent
+    StepperComponent,
+    LeaderboardTableComponent
   ],
-    imports: [
-        BrowserModule,
-        StoreModule.forRoot({}, {}),
-        NgbModule,
-        MDBBootstrapModule,
-        HttpClientModule,
-        AppRoutingModule,
-        RouterModule,
-        ReactiveFormsModule,
-        FormsModule,
-        StoreModule.forRoot({gameData: fromGameData.reducer}),
-        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
-    ],
+  imports: [
+    BrowserModule,
+    StoreModule.forRoot({}, {}),
+    NgbModule,
+    MDBBootstrapModule,
+    HttpClientModule,
+    AppRoutingModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    StoreModule.forRoot({gameData: fromGameData.reducer}),
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
