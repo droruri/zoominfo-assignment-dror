@@ -1,8 +1,8 @@
-import {AppState} from '../../app.state';
+import {GameState} from '../../app.state';
 import {GameData} from '../../../models/game-data';
 import {createSelector} from '@ngrx/store';
 
-export const getGameDataState = (state: AppState) => state.gameData;
+export const getGameDataState = (state: GameState) => state.gameData;
 
 export const getUsernameState = (state: GameData) => state.username;
 
