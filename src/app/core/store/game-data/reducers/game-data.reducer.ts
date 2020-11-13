@@ -43,17 +43,3 @@ export function reducer(state: GameData = initialState, action: GameDataActions.
       return state;
   }
 }
-
-export const getGameDataState = (state: AppState) => state.gameData;
-
-export const getSkipsState = (state: GameData) => state.gameStatus.skips;
-
-export const getPointsState = (state: GameData) => state.gameStatus.points;
-
-export const getLivesRemainingState = (state: GameData) => state.gameStatus.livesRemaining;
-
-export const getSkips = createSelector(getGameDataState, getSkipsState);
-
-export const getPoints = createSelector(getGameDataState, getPointsState);
-
-export const getLivesRemaining = createSelector(getGameDataState, getLivesRemainingState);
