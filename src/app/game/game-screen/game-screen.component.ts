@@ -4,8 +4,9 @@ import {Question} from '../../core/models/question';
 import { first } from 'rxjs/operators';
 import {GameData} from '../../core/models/game-data';
 import {ActivatedRoute} from '@angular/router';
-import {OptionCardComponent} from '../../option-card/option-card.component';
+import {OptionCardComponent} from '../option-card/option-card.component';
 import {Observable, TimeInterval} from 'rxjs';
+import {NUM_OF_QUESTIONS} from '../../core/constants/global';
 
 @Component({
   selector: 'app-game-screen',
@@ -24,6 +25,7 @@ export class GameScreenComponent implements OnInit {
   answerChosen = '';
   answerSubmitted = false;
   disableSkipButton = false;
+  endOfGame = false;
 
   constructor(private gameService: GameService,
               private activatedRoute: ActivatedRoute) {
@@ -52,6 +54,7 @@ export class GameScreenComponent implements OnInit {
   private onTimerEnded(): void {
     this.stopTimer();
     this.handleDecrementLife();
+    this.disableSkipButton = true;
   }
 
   private stopTimer(): void {
@@ -68,23 +71,27 @@ export class GameScreenComponent implements OnInit {
 
   onAnswerSubmitted(): void {
     this.stopTimer();
-    if (this.getCurrentCorrectAnswer() === this.answerChosen) {
+    this.answerSubmitted = true;
+    if (this.isCorrectAnswer()) {
       this.gameService.increaseScore();
     } else {
       this.handleDecrementLife();
     }
     this.gameService.setAnswerToQuestion(this.questionNumberCounter - 1, this.getCurrentCorrectAnswer() === this.answerChosen);
     this.options.forEach(option => this.answerChosen === option.cardText ? option.submittedCard = true : option.submittedCard = false);
-    this.answerSubmitted = true;
   }
 
   private handleDecrementLife(): void {
     this.gameService.decrementLife();
     this.getNumberOfLivesRemaining().pipe(first()).subscribe( lives => {
       if (lives === 0) {
-        // TODO: handle end of game
+        this.endOfGame = true;
       }
     });
+  }
+
+  isCorrectAnswer(): boolean {
+    return this.getCurrentCorrectAnswer() === this.answerChosen;
   }
 
   getChosenAnswer($event: string): void {
@@ -99,9 +106,14 @@ export class GameScreenComponent implements OnInit {
           this.disableSkipButton = true;
         }
         this.gameService.decrementSkip();
-        this.questionNumberCounter++;
-        this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
-        this.restartTimer();
+
+        if (this.questionNumberCounter === NUM_OF_QUESTIONS) {
+          this.endOfGame = true;
+        } else {
+          this.questionNumberCounter++;
+          this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
+          this.restartTimer();
+        }
       }
     });
   }
@@ -112,6 +124,10 @@ export class GameScreenComponent implements OnInit {
 
   getNumberOfLivesRemaining(): Observable<number> {
     return this.gameService.getNumberOfLivesRemaining();
+  }
+
+  getUsername(): Observable<string> {
+    return this.gameService.getUsername();
   }
 
   getPoints(): Observable<number> {
@@ -125,17 +141,17 @@ export class GameScreenComponent implements OnInit {
     });
     this.answerChosen = '';
     this.answerSubmitted = false;
-    this.questionNumberCounter++;
-    this.restartTimer();
-    this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
+    if (this.questionNumberCounter === NUM_OF_QUESTIONS) {
+      this.endOfGame = true;
+    } else {
+      this.questionNumberCounter++;
+      this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
+      this.restartTimer();
+    }
   }
 
   private restartTimer(): void {
     this.stopTimer();
     this.startTimer();
-  }
-
-  private handleEndOfGame(): void {
-
   }
 }
