@@ -17,6 +17,7 @@ import { OptionCardComponent } from './game/option-card/option-card.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { ReplaceCodesToQuotesPipe } from './core/pipes/replace-codes-to-quotes.pipe';
 import * as fromGameData from './core/store/game-data/reducers/game-data.reducer';
+import * as fromLeaderboard from './core/store/leaderboard/reducers/leaderboard.reducer';
 import {environment} from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LeaderboardTableComponent } from './leaderboard/leaderboard-table/leaderboard-table.component';
@@ -44,7 +45,7 @@ import { LeaderboardTableComponent } from './leaderboard/leaderboard-table/leade
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
-    StoreModule.forRoot({gameData: fromGameData.reducer}),
+    StoreModule.forRoot({gameData: fromGameData.reducer, leaderboard: fromLeaderboard.reducer}),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
   ],
   providers: [],
