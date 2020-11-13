@@ -4,9 +4,9 @@ import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Question} from '../core/models/question';
 import {Store} from '@ngrx/store';
-import {CORRECT_HEADER, INCORRECT_HEADER, QUESTION_HEADER} from '../core/constants/global';
+import {CORRECT_HEADER, INCORRECT_HEADER, QUESTION_HEADER, QUESTIONS_URL} from '../core/constants/global';
 import {GameData} from '../core/models/game-data';
-import {AppState} from '../core/store/app.state';
+import {GameState} from '../core/store/app.state';
 import {AddPoints, DecrementLife, DecrementSkip, LoadInitialData, SetAnswerToQuestion} from '../core/store/game-data/actions/game-data.actions';
 import * as fromGameData from '../core/store/game-data/selectors/game-data.selectors';
 @Injectable({
@@ -14,14 +14,12 @@ import * as fromGameData from '../core/store/game-data/selectors/game-data.selec
 })
 export class GameService {
 
-  private readonly url = 'https://opentdb.com/api.php?amount=10&type=multiple';
-
   constructor(private http: HttpClient,
-              private store: Store<AppState>) {
+              private store: Store<GameState>) {
   }
 
   public getQuestions(): Observable<Question[]> {
-    return this.http.get<any>(this.url).pipe(
+    return this.http.get<any>(QUESTIONS_URL).pipe(
       map(response => {
         return response.results.map(questionData => this.createQuestion(questionData));
       }),
