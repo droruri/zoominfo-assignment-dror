@@ -10,7 +10,9 @@
             <h2>Points: {{getPoints() | async}}</h2>
           </div>
           <div class="d-inline col-4 text-right">
-            <h2 [ngStyle]="{'color': timeLeft<=5 ? 'red': 'black'}">Time: {{timeLeft}} seconds</h2>
+            <h2 [ngStyle]="{'color': timeLeft<=5 ? 'red': 'black'}">
+              Time: {{timeLeft}} seconds
+            </h2>
           </div>
         </div>
         <span class="mt-5 mb-5 d-flex justify-content-center">
@@ -51,15 +53,15 @@
             </div>
           </div>
         </div>
-        <div class="justify-content-center row">
-          <button *ngIf="!answerSubmitted"
+        <div *ngIf="!endOfGame" class="justify-content-center row">
+          <button *ngIf="!answerSubmitted && timeLeft > 0"
                   mdbBtn type="button"
                   class="d-inline mt-5 rounded-pill h-100 w-25 btn ok-btn"
                   (click)="onAnswerSubmitted()"
           [disabled]="this.answerChosen.length === 0">
             <h3 class="my-2">OK</h3>
           </button>
-          <button *ngIf="answerSubmitted"
+          <button *ngIf="answerSubmitted || timeLeft === 0"
                   mdbBtn
                   type="button"
                   class="d-inline mt-5 rounded-pill h-100 w-25 btn ok-btn"
@@ -79,6 +81,18 @@
           </div>
         </div>
         <app-stepper [questionNumber]="questionNumberCounter"></app-stepper>
+        <div *ngIf="answerSubmitted && isCorrectAnswer()" class="alert alert-success text-center mt-2" role="alert">
+          <h2> Correct Answer! </h2>
+        </div>
+        <div *ngIf="answerSubmitted && !isCorrectAnswer()" class="alert alert-danger text-center mt-2" role="alert">
+          <h2> Wrong Answer! </h2>
+        </div>
+        <div *ngIf="timeLeft === 0" class="alert alert-danger text-center mt-2" role="alert">
+          <h2> Time Out! </h2>
+        </div>
+        <div *ngIf="endOfGame" class="alert alert-success text-center mt-2" role="alert">
+          <h2> {{getUsername() | async}}, You got {{getPoints() | async}} points!</h2>
+        </div>
       </div>
     </div>
   </div>
