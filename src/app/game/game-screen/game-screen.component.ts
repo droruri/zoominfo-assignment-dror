@@ -118,22 +118,6 @@ export class GameScreenComponent implements OnInit {
     });
   }
 
-  getNumberOfSkipsRemaining(): Observable<number> {
-    return this.gameService.getNumberOfSkipsRemaining();
-  }
-
-  getNumberOfLivesRemaining(): Observable<number> {
-    return this.gameService.getNumberOfLivesRemaining();
-  }
-
-  getUsername(): Observable<string> {
-    return this.gameService.getUsername();
-  }
-
-  getPoints(): Observable<number> {
-    return this.gameService.getPoints();
-  }
-
   onContinueClicked(): void {
     this.options.forEach(option => {
       option.submittedCard = false;
@@ -153,5 +137,21 @@ export class GameScreenComponent implements OnInit {
   private restartTimer(): void {
     this.stopTimer();
     this.startTimer();
+  }
+
+  getNumberOfSkipsRemaining(): Observable<number> {
+    return this.gameService.getNumberOfSkipsRemaining();
+  }
+
+  getNumberOfLivesRemaining(): Observable<number> {
+    return this.gameService.getNumberOfLivesRemaining();
+  }
+
+  getUsername(): Observable<string> {
+    return this.gameService.getUsername();
+  }
+
+  getPoints(): Observable<number> {
+    return this.gameService.getPoints();
   }
 }
