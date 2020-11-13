@@ -1,8 +1,6 @@
-import {createSelector} from '@ngrx/store';
 import * as GameDataActions from '../actions/game-data.actions';
 import {GameData} from '../../../models/game-data';
 import {GameStatus} from '../../../models/game-status';
-import {AppState} from '../../app.state';
 
 const initialState: GameData = {
   username: '',
