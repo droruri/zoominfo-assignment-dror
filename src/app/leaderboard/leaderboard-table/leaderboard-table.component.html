@@ -9,10 +9,10 @@
         </thead>
         <tbody>
         <tr mdbTableRow class="text-center"  *ngFor="let record of getTopRecords() | async; let i = index">
-          <td>{{i+1}}</td>
-          <td>{{record.username}}</td>
-          <td>{{record.points}}</td>
-          <td>{{record.date}}</td>
+          <td class="h4">{{i+1}}</td>
+          <td class="h4">{{record.username}}</td>
+          <td class="h4">{{record.points}}</td>
+          <td class="h4">{{record.date}}</td>
         </tr>
         </tbody>
       </table>
