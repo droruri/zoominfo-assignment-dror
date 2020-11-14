@@ -1,11 +1,11 @@
-import {Component, OnChanges, OnDestroy, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {GameService} from '../game.service';
 import {Question} from '../../core/models/question';
 import { first } from 'rxjs/operators';
 import {GameData} from '../../core/models/game-data';
 import {ActivatedRoute} from '@angular/router';
 import {OptionCardComponent} from '../option-card/option-card.component';
-import {combineLatest, forkJoin, Observable, TimeInterval} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {NUM_OF_QUESTIONS} from '../../core/constants/global';
 import {LeaderboardService} from '../../leaderboard/leaderboard.service';
 import {LeaderboardRecord} from '../../core/models/leaderboard-record';
@@ -16,14 +16,13 @@ import {LeaderboardRecord} from '../../core/models/leaderboard-record';
   styleUrls: ['./game-screen.component.css']
 })
 export class GameScreenComponent implements OnInit {
-  @ViewChildren(OptionCardComponent) options: QueryList<OptionCardComponent>;
-
   private readonly SECONDS_PER_QUESTION = 20;
+
+  @ViewChildren(OptionCardComponent) options: QueryList<OptionCardComponent>;
   timeLeft: number;
   interval;
-  gameQuestions$: Question[];
   questionNumberCounter = 1;
-  currentQuestion: Question;
+  currentQuestion$: Question;
   answerChosen = '';
   answerSubmitted = false;
   disableSkipButton = false;
@@ -36,9 +35,8 @@ export class GameScreenComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameService.getQuestions().pipe(first()).subscribe(data => {
-      this.gameQuestions$ = data;
-      this.gameService.setStartGameData(new GameData(this.activatedRoute.snapshot.paramMap.get('username'), this.gameQuestions$));
-      this.currentQuestion = this.gameQuestions$[0];
+      this.gameService.setStartGameData(new GameData(this.activatedRoute.snapshot.paramMap.get('username'), data));
+      this.getCurrentQuestionData();
     });
     this.startTimer();
   }
@@ -64,12 +62,9 @@ export class GameScreenComponent implements OnInit {
     clearInterval(this.interval);
   }
 
-  getCurrentQuestion(): string {
-    return this.gameQuestions$[this.questionNumberCounter - 1].question;
-  }
-
-  getCurrentCorrectAnswer(): string {
-    return this.gameQuestions$[this.questionNumberCounter - 1].correctAnswer;
+  getCurrentQuestionData(): void {
+    this.gameService.getQuestionByIndex(this.questionNumberCounter - 1).pipe(first()).subscribe(
+      question => this.currentQuestion$ = question);
   }
 
   onAnswerSubmitted(): void {
@@ -80,7 +75,7 @@ export class GameScreenComponent implements OnInit {
     } else {
       this.handleDecrementLife();
     }
-    this.gameService.setAnswerToQuestion(this.questionNumberCounter - 1, this.getCurrentCorrectAnswer() === this.answerChosen);
+    this.gameService.setAnswerToQuestion(this.questionNumberCounter - 1, this.isCorrectAnswer());
     this.options.forEach(option => this.answerChosen === option.cardText ? option.submittedCard = true : option.submittedCard = false);
   }
 
@@ -94,7 +89,7 @@ export class GameScreenComponent implements OnInit {
   }
 
   isCorrectAnswer(): boolean {
-    return this.getCurrentCorrectAnswer() === this.answerChosen;
+    return this.currentQuestion$.correctAnswer === this.answerChosen;
   }
 
   getChosenAnswer($event: string): void {
@@ -113,7 +108,7 @@ export class GameScreenComponent implements OnInit {
         this.onEndOfGame();
       } else {
         this.questionNumberCounter++;
-        this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
+        this.getCurrentQuestionData();
         this.restartTimer();
       }
     });
@@ -130,7 +125,7 @@ export class GameScreenComponent implements OnInit {
       this.onEndOfGame();
     } else {
       this.questionNumberCounter++;
-      this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
+      this.getCurrentQuestionData();
       this.restartTimer();
     }
   }
