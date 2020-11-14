@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {NUM_OF_QUESTIONS} from '../core/constants/global';
+import {NUM_OF_QUESTIONS} from '../../core/constants/global';
 
 @Component({
   selector: 'app-stepper',
