@@ -44,12 +44,8 @@ export class GameScreenComponent implements OnInit {
   private startTimer(): void {
     this.timeLeft = this.SECONDS_PER_QUESTION;
     this.interval = setInterval(() => {
-      if (this.timeLeft > 0) {
-        this.timeLeft--;
-      } else {
-        this.onTimerEnded();
-      }
-    }, 1000);
+      this.timeLeft > 0 ? this.timeLeft-- : this.onTimerEnded();
+      }, 1000);
   }
 
   private onTimerEnded(): void {
@@ -70,11 +66,7 @@ export class GameScreenComponent implements OnInit {
   onAnswerSubmitted(): void {
     this.stopTimer();
     this.answerSubmitted = true;
-    if (this.isCorrectAnswer()) {
-      this.gameService.increaseScore();
-    } else {
-      this.handleDecrementLife();
-    }
+    this.isCorrectAnswer() ? this.gameService.increaseScore() : this.handleDecrementLife();
     this.gameService.setAnswerToQuestion(this.questionNumberCounter - 1, this.isCorrectAnswer());
     this.options.forEach(option => this.answerChosen === option.cardText ? option.submittedCard = true : option.submittedCard = false);
   }
@@ -104,13 +96,7 @@ export class GameScreenComponent implements OnInit {
       }
       this.gameService.decrementSkip();
 
-      if (this.questionNumberCounter === NUM_OF_QUESTIONS) {
-        this.onEndOfGame();
-      } else {
-        this.questionNumberCounter++;
-        this.getCurrentQuestionData();
-        this.restartTimer();
-      }
+      this.questionNumberCounter === NUM_OF_QUESTIONS ? this.onEndOfGame() : this.proceedToNextQuestion();
     });
   }
 
@@ -121,13 +107,19 @@ export class GameScreenComponent implements OnInit {
     });
     this.answerChosen = '';
     this.answerSubmitted = false;
-    if (this.questionNumberCounter === NUM_OF_QUESTIONS) {
-      this.onEndOfGame();
-    } else {
-      this.questionNumberCounter++;
-      this.getCurrentQuestionData();
-      this.restartTimer();
-    }
+
+    this.questionNumberCounter === NUM_OF_QUESTIONS ? this.onEndOfGame() : this.proceedToNextQuestion();
+  }
+
+  private proceedToNextQuestion(): void {
+    this.questionNumberCounter++;
+    this.getCurrentQuestionData();
+    this.restartTimer();
+  }
+
+  private restartTimer(): void {
+    this.stopTimer();
+    this.startTimer();
   }
 
   private onEndOfGame(): void {
@@ -135,11 +127,6 @@ export class GameScreenComponent implements OnInit {
     combineLatest([this.getUsername(), this.getPoints()]).pipe(first()).subscribe(results => {
       this.leaderboardService.addRecord(new LeaderboardRecord(results[0], results[1], new Date().toDateString()));
     });
-  }
-
-  private restartTimer(): void {
-    this.stopTimer();
-    this.startTimer();
   }
 
   getNumberOfSkipsRemaining(): Observable<number> {
