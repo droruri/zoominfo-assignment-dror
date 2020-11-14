@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {GameScreenComponent} from './game/game-screen/game-screen.component';
-import {LoginScreenComponent} from './login-screen/login-screen.component';
+import {MainScreenComponent} from './main-screen/main-screen.component';
 import {LeaderboardTableComponent} from './leaderboard/leaderboard-table/leaderboard-table.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 
@@ -12,8 +12,8 @@ const appRoutes: Routes = [
     component: GameScreenComponent
   },
   {
-    path: 'login',
-    component: LoginScreenComponent
+    path: 'main',
+    component: MainScreenComponent
   },
   {
     path: 'leaderboard',
@@ -21,7 +21,7 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/main',
     pathMatch: 'full'
   },
   {

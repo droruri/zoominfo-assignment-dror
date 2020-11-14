@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { LoginScreenComponent } from './login-screen/login-screen.component';
+import { MainScreenComponent } from './main-screen/main-screen.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FooterComponent } from './core/footer/footer.component';
 import { GameScreenComponent } from './game/game-screen/game-screen.component';
@@ -27,7 +27,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 @NgModule({
   declarations: [
     AppComponent,
-    LoginScreenComponent,
+    MainScreenComponent,
     FooterComponent,
     GameScreenComponent,
     HeaderComponent,
