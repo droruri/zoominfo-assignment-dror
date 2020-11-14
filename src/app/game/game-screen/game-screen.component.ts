@@ -52,6 +52,7 @@ export class GameScreenComponent implements OnInit {
     this.stopTimer();
     this.handleDecrementLife();
     this.disableSkipButton = true;
+    this.options.forEach(option => option.isCardDisabled = true);
   }
 
   private stopTimer(): void {
@@ -68,7 +69,10 @@ export class GameScreenComponent implements OnInit {
     this.answerSubmitted = true;
     this.isCorrectAnswer() ? this.gameService.increaseScore() : this.handleDecrementLife();
     this.gameService.setAnswerToQuestion(this.questionNumberCounter - 1, this.isCorrectAnswer());
-    this.options.forEach(option => this.answerChosen === option.cardText ? option.submittedCard = true : option.submittedCard = false);
+    this.options.forEach(option => {
+      this.answerChosen === option.cardText ? option.submittedCard = true : option.submittedCard = false;
+      option.isCardDisabled = true;
+    });
   }
 
   private handleDecrementLife(): void {
@@ -101,17 +105,23 @@ export class GameScreenComponent implements OnInit {
   }
 
   onContinueClicked(): void {
-    this.options.forEach(option => {
-      option.submittedCard = false;
-      option.selectedCard = false;
-    });
+    this.initializeOptionCards();
     this.answerChosen = '';
     this.answerSubmitted = false;
 
     this.questionNumberCounter === NUM_OF_QUESTIONS ? this.onEndOfGame() : this.proceedToNextQuestion();
   }
 
+  private initializeOptionCards(): void {
+    this.options.forEach(option => {
+      option.isCardDisabled = false;
+      option.submittedCard = false;
+      option.selectedCard = false;
+    });
+  }
+
   private proceedToNextQuestion(): void {
+    this.getNumberOfSkipsRemaining().pipe(first()).subscribe(skips => this.disableSkipButton = skips === 0);
     this.questionNumberCounter++;
     this.getCurrentQuestionData();
     this.restartTimer();
