@@ -16,7 +16,7 @@ export const getLivesRemainingState = (state: GameData) => state.gameStatus.live
 
 export const getUsername = createSelector(getGameDataState, getUsernameState);
 
-export const getQuestion = createSelector(getGameDataState, getQuestionState);
+export const getQuestion = createSelector(getGameDataState, (state: GameData, props) => state.gameQuestions[props.index]);
 
 export const getSkips = createSelector(getGameDataState, getSkipsState);
 

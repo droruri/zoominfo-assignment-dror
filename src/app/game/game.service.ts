@@ -55,6 +55,10 @@ export class GameService {
     return this.store.select(fromGameData.getPoints);
   }
 
+  public getQuestionByIndex(index: number): Observable<Question> {
+    return this.store.select(fromGameData.getQuestion, {index});
+  }
+
   public decrementSkip(): void {
     this.store.dispatch(new DecrementSkip());
   }
