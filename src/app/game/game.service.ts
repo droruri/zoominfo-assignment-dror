@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Question} from '../core/models/question';
 import {Store} from '@ngrx/store';
@@ -24,8 +24,7 @@ export class GameService {
     return this.http.get<any>(this.questionsUrl).pipe(
       map(response => {
         return response.results.map(questionData => this.createQuestion(questionData));
-      }),
-      catchError(null)
+      })
     );
   }
 

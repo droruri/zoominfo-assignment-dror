@@ -37,7 +37,7 @@ export class GameScreenComponent implements OnInit {
     this.gameService.getQuestions().pipe(first()).subscribe(data => {
       this.gameService.setStartGameData(new GameData(this.activatedRoute.snapshot.paramMap.get('username'), data));
       this.getCurrentQuestionData();
-    });
+    }, error => window.alert('Something went wrong! Check your internet connection'));
     this.startTimer();
   }
 
