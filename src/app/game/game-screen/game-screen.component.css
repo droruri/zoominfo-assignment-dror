@@ -4,8 +4,13 @@
 
 .ok-btn:disabled {
   background: #F0F0F0;
+  cursor: not-allowed;
 }
 
 .question-counter-color {
   color: #0D7BAB;
+}
+
+.not-allowed-pointer:disabled {
+  cursor: not-allowed;
 }
