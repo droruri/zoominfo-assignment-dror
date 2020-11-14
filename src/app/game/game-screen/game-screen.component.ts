@@ -104,19 +104,17 @@ export class GameScreenComponent implements OnInit {
 
   onSkip(): void {
     this.getNumberOfSkipsRemaining().pipe(first()).subscribe(skips => {
-      if (skips > 0) {
-        if (skips === 1) {
-          this.disableSkipButton = true;
-        }
-        this.gameService.decrementSkip();
+      if (skips === 1) {
+        this.disableSkipButton = true;
+      }
+      this.gameService.decrementSkip();
 
-        if (this.questionNumberCounter === NUM_OF_QUESTIONS) {
-          this.onEndOfGame();
-        } else {
-          this.questionNumberCounter++;
-          this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
-          this.restartTimer();
-        }
+      if (this.questionNumberCounter === NUM_OF_QUESTIONS) {
+        this.onEndOfGame();
+      } else {
+        this.questionNumberCounter++;
+        this.currentQuestion = this.gameQuestions$[this.questionNumberCounter - 1];
+        this.restartTimer();
       }
     });
   }
