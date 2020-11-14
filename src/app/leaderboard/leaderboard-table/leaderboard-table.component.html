@@ -1,1 +1,21 @@
-<p>leaderboard-table works!</p>
+<div class="bootstrap-scope">
+  <div class="container-fluid py-3">
+    <div class="row justify-content-center">
+      <table mdbTable class="col-9">
+        <thead class="bg-dark text-white">
+        <tr>
+          <th class="h3 text-center th-lg" *ngFor="let columnName of headerColumns">{{columnName}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr mdbTableRow *ngFor="let record of getTopRecords() | async; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{record.username}}</td>
+          <td>{{record.points}}</td>
+          <td>{{record.date}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
