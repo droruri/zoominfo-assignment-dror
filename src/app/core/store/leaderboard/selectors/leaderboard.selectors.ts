@@ -6,6 +6,6 @@ import {ROWS_AT_LEADERBOARD} from '../../../constants/global';
 export const getLeaderboardState = (state: LeaderboardState) => state.leaderboard.leaderboardRecords;
 
 export const getBestRecordsState = (state: LeaderboardRecord[]) =>
-  state.sort((a, b) => (a.points - b.points)).slice(0, ROWS_AT_LEADERBOARD);
+  Object.assign([], state).sort((a, b) => (b.points - a.points)).slice(0, ROWS_AT_LEADERBOARD);
 
 export const getBestRecords = createSelector(getLeaderboardState, getBestRecordsState);
