@@ -22,6 +22,7 @@ import {environment} from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LeaderboardTableComponent } from './leaderboard/leaderboard-table/leaderboard-table.component';
 import { AlertBarComponent } from './game/alert-bar/alert-bar.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { AlertBarComponent } from './game/alert-bar/alert-bar.component';
     ReplaceCodesToQuotesPipe,
     StepperComponent,
     LeaderboardTableComponent,
-    AlertBarComponent
+    AlertBarComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

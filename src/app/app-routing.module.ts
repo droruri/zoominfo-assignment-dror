@@ -4,6 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {GameScreenComponent} from './game/game-screen/game-screen.component';
 import {LoginScreenComponent} from './login-screen/login-screen.component';
 import {LeaderboardTableComponent} from './leaderboard/leaderboard-table/leaderboard-table.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
   {
@@ -22,8 +23,15 @@ const appRoutes: Routes = [
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'
+  },
+  {
+    path: '404',
+    component: PageNotFoundComponent
+  },
+  {
+    path: '**',
+    redirectTo: '/404'
   }
-  // TODO: path '**'
 ];
 
 @NgModule({
