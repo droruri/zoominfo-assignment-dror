@@ -1,0 +1,13 @@
+<div *ngIf="answerSubmitted" class="alert alert-success text-center mt-2" role="alert"
+     [ngClass]="{'alert-success' : isCorrectAnswer, 'alert-danger' : !isCorrectAnswer}">
+  <h2 *ngIf="isCorrectAnswer"> Correct Answer! </h2>
+  <h2 *ngIf="!isCorrectAnswer"> Wrong Answer! </h2>
+</div>
+<div *ngIf="timeLeft === 0" class="alert alert-danger text-center mt-2" role="alert">
+  <h2> Time Out! </h2>
+</div>
+<div *ngIf="endOfGame" class="alert alert-success text-center mt-2" role="alert">
+  <h2> {{getUsername() | async}}, You got {{getPoints() | async}} points!</h2>
+  <button mdbBtn [routerLink]="['/leaderboard']">Go To Leaderboard</button>
+  <button mdbBtn [routerLink]="['/login']">Go To Main Screen</button>
+</div>

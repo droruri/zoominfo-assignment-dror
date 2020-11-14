@@ -1,6 +1,6 @@
 <div class="bootstrap-scope">
   <div class="container-fluid">
-    <div *ngIf="gameQuestions$">
+    <div *ngIf="currentQuestion$">
       <div class="flex-column">
         <div class="mt-3 row">
           <div class="d-inline col-4">
@@ -17,21 +17,21 @@
         </div>
         <span class="mt-5 mb-5 d-flex justify-content-center">
           <h2 class="question-counter-color mr-2">Q:{{questionNumberCounter}}</h2>
-          <h2>{{getCurrentQuestion() | replaceCodesToQuotes}}</h2>
+          <h2>{{currentQuestion$.question | replaceCodesToQuotes}}</h2>
         </span>
         <div class="container w-75">
           <div class="row">
             <div class="col">
               <app-option-card
                 (selectedCardEmitter)="getChosenAnswer($event)"
-                [cardText]="currentQuestion.correctAnswer"
+                [cardText]="currentQuestion$.correctAnswer"
                 [isCorrectAnswer]="true">
               </app-option-card>
             </div>
             <div class="col">
               <app-option-card
                 (selectedCardEmitter)="getChosenAnswer($event)"
-                [cardText]="currentQuestion.incorrectAnswers[0]"
+                [cardText]="currentQuestion$.incorrectAnswers[0]"
                 [isCorrectAnswer]="false">
               </app-option-card>
             </div>
@@ -40,14 +40,14 @@
             <div class="col">
               <app-option-card
                 (selectedCardEmitter)="getChosenAnswer($event)"
-                [cardText]="currentQuestion.incorrectAnswers[1]"
+                [cardText]="currentQuestion$.incorrectAnswers[1]"
                 [isCorrectAnswer]="false">
               </app-option-card>
             </div>
             <div class="col">
               <app-option-card
                 (selectedCardEmitter)="getChosenAnswer($event)"
-                [cardText]="currentQuestion.incorrectAnswers[2]"
+                [cardText]="currentQuestion$.incorrectAnswers[2]"
                 [isCorrectAnswer]="false">
               </app-option-card>
             </div>
@@ -81,20 +81,11 @@
           </div>
         </div>
         <app-stepper [questionNumber]="questionNumberCounter"></app-stepper>
-        <div *ngIf="answerSubmitted && isCorrectAnswer()" class="alert alert-success text-center mt-2" role="alert">
-          <h2> Correct Answer! </h2>
-        </div>
-        <div *ngIf="answerSubmitted && !isCorrectAnswer()" class="alert alert-danger text-center mt-2" role="alert">
-          <h2> Wrong Answer! </h2>
-        </div>
-        <div *ngIf="timeLeft === 0" class="alert alert-danger text-center mt-2" role="alert">
-          <h2> Time Out! </h2>
-        </div>
-        <div *ngIf="endOfGame" class="alert alert-success text-center mt-2" role="alert">
-          <h2> {{getUsername() | async}}, You got {{getPoints() | async}} points!</h2>
-          <button mdbBtn [routerLink]="['/leaderboard']">Go To Leaderboard</button>
-          <button mdbBtn [routerLink]="['/login']">Go To Main Screen</button>
-        </div>
+        <app-alert-bar
+          [answerSubmitted]="answerSubmitted"
+          [isCorrectAnswer]="isCorrectAnswer()"
+          [timeLeft]="timeLeft"
+          [endOfGame]="endOfGame"></app-alert-bar>
       </div>
     </div>
   </div>

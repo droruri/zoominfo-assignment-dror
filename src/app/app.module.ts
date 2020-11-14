@@ -21,6 +21,7 @@ import * as fromLeaderboard from './core/store/leaderboard/reducers/leaderboard.
 import {environment} from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LeaderboardTableComponent } from './leaderboard/leaderboard-table/leaderboard-table.component';
+import { AlertBarComponent } from './game/alert-bar/alert-bar.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { LeaderboardTableComponent } from './leaderboard/leaderboard-table/leade
     OptionCardComponent,
     ReplaceCodesToQuotesPipe,
     StepperComponent,
-    LeaderboardTableComponent
+    LeaderboardTableComponent,
+    AlertBarComponent
   ],
   imports: [
     BrowserModule,
