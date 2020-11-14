@@ -1,6 +1,7 @@
 import * as GameDataActions from '../actions/game-data.actions';
 import {GameData} from '../../../models/game-data';
 import {GameStatus} from '../../../models/game-status';
+import {POINTS_EARNED_PER_QUESTION} from '../../../constants/global';
 
 const initialState: GameData = {
   username: '',
@@ -24,7 +25,7 @@ export function reducer(state: GameData = initialState, action: GameDataActions.
       return {...state, gameStatus: updatedGameStatus};
 
     case '[GameData] Add Points':
-      updatedGameStatus.points += 10; // TODO: const
+      updatedGameStatus.points += POINTS_EARNED_PER_QUESTION;
       return {...state, gameStatus: updatedGameStatus};
 
     case '[GameData] set correctness for question':
