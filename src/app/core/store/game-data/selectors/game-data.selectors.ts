@@ -2,6 +2,7 @@ import {GameState} from '../../app.state';
 import {GameData} from '../../../models/game-data';
 import {createSelector} from '@ngrx/store';
 
+//pay attention you use "get___State" only in this file so maybe part of them are redundant and you can put the arrow functions in the createSelector
 export const getGameDataState = (state: GameState) => state.gameData;
 
 export const getUsernameState = (state: GameData) => state.username;
