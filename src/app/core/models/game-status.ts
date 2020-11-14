@@ -1,3 +1,5 @@
+//add types
+
 export class GameStatus {
   points = 0;
   livesRemaining = 3;

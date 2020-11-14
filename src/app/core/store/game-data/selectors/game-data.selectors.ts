@@ -5,7 +5,7 @@ import {createSelector} from '@ngrx/store';
 export const getGameDataState = (state: GameState) => state.gameData;
 
 export const getUsernameState = (state: GameData) => state.username;
-
+//not in use
 export const getQuestionState = (state: GameData, index: number) => state.gameQuestions[index];
 
 export const getSkipsState = (state: GameData) => state.gameStatus.skips;

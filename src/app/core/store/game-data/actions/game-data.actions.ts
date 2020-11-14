@@ -1,6 +1,5 @@
 import {GameData} from '../../../models/game-data';
 import {Action} from '@ngrx/store';
-import {Question} from '../../../models/question';
 
 export const LOAD_INITIAL_DATA = '[GameData] Load initial data';
 export const DECREMENT_SKIP = '[GameData] Decrement Skip';

@@ -12,6 +12,7 @@ const initialState: GameData = {
 export function reducer(state: GameData = initialState, action: GameDataActions.Actions): GameData {
   const updatedGameStatus = {...state.gameStatus};
 
+  //in each case use the constant you created, like GameDataActions.LOAD_INITIAL_DATA
   switch (action.type) {
     case GameDataActions.LOAD_INITIAL_DATA:
       return action.payload;

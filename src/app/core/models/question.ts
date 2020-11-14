@@ -2,6 +2,7 @@ export class Question {
   question: string;
   correctAnswer: string;
   incorrectAnswers: string[];
+  //property is not used
   isCorrectAnswer = null;
 
   constructor(question: string, correctAnswer: string, incorrectAnswers: string[]) {

@@ -41,6 +41,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   ],
   imports: [
     BrowserModule,
+    //you set this module twice
     StoreModule.forRoot({}, {}),
     NgbModule,
     MDBBootstrapModule,

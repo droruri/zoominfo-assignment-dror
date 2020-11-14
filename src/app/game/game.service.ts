@@ -1,15 +1,22 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {Observable, of} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Question} from '../core/models/question';
 import {Store} from '@ngrx/store';
 import {CORRECT_HEADER, INCORRECT_HEADER, QUESTION_HEADER} from '../core/constants/global';
 import {GameData} from '../core/models/game-data';
 import {GameState} from '../core/store/app.state';
-import {AddPoints, DecrementLife, DecrementSkip, LoadInitialData, SetAnswerToQuestion} from '../core/store/game-data/actions/game-data.actions';
+import {
+  AddPoints,
+  DecrementLife,
+  DecrementSkip,
+  LoadInitialData,
+  SetAnswerToQuestion
+} from '../core/store/game-data/actions/game-data.actions';
 import * as fromGameData from '../core/store/game-data/selectors/game-data.selectors';
 import {environment} from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,6 +35,7 @@ export class GameService {
     );
   }
 
+  //the methods createQuestion, getGameData are not used
   private createQuestion(questionData: any): Question {
     return new Question(questionData[QUESTION_HEADER], questionData[CORRECT_HEADER], questionData[INCORRECT_HEADER]);
   }

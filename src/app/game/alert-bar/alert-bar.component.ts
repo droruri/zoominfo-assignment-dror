@@ -17,7 +17,11 @@ export class AlertBarComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  //consider set the observables like that:
+  /*username$: Observable<string>;
+  constructor() {
+    this.username$ = this.gameService.getUsername;
+  }*/
   getUsername(): Observable<string> {
     return this.gameService.getUsername();
   }

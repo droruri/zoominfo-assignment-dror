@@ -19,6 +19,7 @@ export class GameScreenComponent implements OnInit {
   private readonly SECONDS_PER_QUESTION = 20;
 
   @ViewChildren(OptionCardComponent) options: QueryList<OptionCardComponent>;
+  //don't forget to assign types
   timeLeft: number;
   interval;
   questionNumberCounter = 1;
@@ -35,6 +36,7 @@ export class GameScreenComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameService.getQuestions().pipe(first()).subscribe(data => {
+      //extract new GameData(this.activatedRoute.snapshot.paramMap.get('username') into a variable
       this.gameService.setStartGameData(new GameData(this.activatedRoute.snapshot.paramMap.get('username'), data));
       this.getCurrentQuestionData();
     }, error => window.alert('Something went wrong! Check your internet connection'));
@@ -43,6 +45,7 @@ export class GameScreenComponent implements OnInit {
 
   private startTimer(): void {
     this.timeLeft = this.SECONDS_PER_QUESTION;
+    //don't forget to cleant this interval on Destroy
     this.interval = setInterval(() => {
       this.timeLeft > 0 ? this.timeLeft-- : this.onTimerEnded();
       }, 1000);
@@ -70,6 +73,7 @@ export class GameScreenComponent implements OnInit {
     this.isCorrectAnswer() ? this.gameService.increaseScore() : this.handleDecrementLife();
     this.gameService.setAnswerToQuestion(this.questionNumberCounter - 1, this.isCorrectAnswer());
     this.options.forEach(option => {
+      //option.submittedCard = this.answerChosen === option.cardText;
       this.answerChosen === option.cardText ? option.submittedCard = true : option.submittedCard = false;
       option.isCardDisabled = true;
     });
@@ -90,6 +94,7 @@ export class GameScreenComponent implements OnInit {
 
   getChosenAnswer($event: string): void {
     this.answerChosen = $event;
+    //this.options.forEach(option => option.selectedCard = this.answerChosen === option.cardText);
     this.options.forEach(option => !(this.answerChosen === option.cardText) ? option.selectedCard = false : option.selectedCard = true);
   }
 
