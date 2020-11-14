@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
 import { AlphanumericDirective } from './core/directives/alphanumeric.directive';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { OptionCardComponent } from './game/option-card/option-card.component';
-import { StepperComponent } from './stepper/stepper.component';
+import { StepperComponent } from './game/stepper/stepper.component';
 import { ReplaceCodesToQuotesPipe } from './core/pipes/replace-codes-to-quotes.pipe';
 import * as fromGameData from './core/store/game-data/reducers/game-data.reducer';
 import * as fromLeaderboard from './core/store/leaderboard/reducers/leaderboard.reducer';
