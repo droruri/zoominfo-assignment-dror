@@ -6,7 +6,7 @@
 }
 
 .option-card:hover {
-  box-shadow: 0 0 11px rgba(33,33,33,.2)!important;
+  box-shadow: 0 0 11px rgba(33,33,33,.2);
 }
 
 .selected-card {
@@ -19,4 +19,8 @@
 
 .wrong-border {
   border: 4px solid #FB4343!important;
+}
+
+.disabled-option:hover {
+  box-shadow: none !important;
 }

@@ -10,15 +10,19 @@ export class OptionCardComponent implements OnInit {
   @Input() cardText: string;
   @Input() isCorrectAnswer: boolean;
   @Output() selectedCardEmitter = new EventEmitter<string>();
+  isCardDisabled: boolean;
   submittedCard = false;
   selectedCard: boolean;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
   emitSelection(): void {
-    this.selectedCardEmitter.emit(this.cardText);
+    if (!this.isCardDisabled) {
+      this.selectedCardEmitter.emit(this.cardText);
+    }
   }
 
   isSubmittedAndCorrect(): boolean {
